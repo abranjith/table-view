@@ -1,0 +1,11 @@
+ID,Name,Email,Department,Salary,Start Date,Description,Skills,Manager,Location
+1,John Doe,john.doe@company.com,Engineering,75000,2023-01-15,"Senior software engineer with expertise in full-stack development","JavaScript, React, Node.js, Python",Sarah Johnson,New York
+2,Jane Smith,jane.smith@company.com,Marketing,68000,2023-03-20,"Marketing specialist focused on digital campaigns","SEO, Google Analytics, Content Marketing",Mike Wilson,San Francisco  
+3,"Johnson, Michael",mike.johnson@company.com,Sales,82000,2022-11-10,"Sales director managing the western region team","Salesforce, CRM, Team Leadership, Negotiation",Lisa Chen,Los Angeles
+4,Sarah Wilson,sarah.wilson@company.com,Design,71000,2023-02-01,"UX/UI designer creating user-centered design solutions","Figma, Adobe Creative Suite, User Research, Prototyping",David Brown,Austin
+5,David Brown,david.brown@company.com,IT,79000,2022-08-15,"DevOps engineer maintaining cloud infrastructure and CI/CD pipelines","AWS, Docker, Kubernetes, Jenkins, Terraform",Sarah Johnson,Seattle
+6,Emily Davis,emily.davis@company.com,Data Science,85000,2023-04-12,"Data scientist applying ML techniques to business problems","Python, R, SQL, TensorFlow, Statistics",Robert Kim,Boston
+7,Carlos Martinez,carlos.martinez@company.com,HR,64000,2023-01-30,"HR generalist handling recruitment and employee relations","Workday, Recruiting, Employee Relations",Jennifer Lee,Miami
+8,Lisa Chen,lisa.chen@company.com,Finance,73000,2022-12-05,"Financial analyst responsible for budgeting and forecasting","Excel, SAP, Financial Modeling, Analysis",Mark Anderson,Chicago
+9,Robert Kim,robert.kim@company.com,Operations,76000,2023-03-08,"Operations manager optimizing business processes and workflows","Process Improvement, Project Management, Six Sigma",Emily Davis,Denver
+10,Jennifer Lee,jennifer.lee@company.com,Legal,88000,2022-09-22,"Corporate lawyer handling contracts and compliance matters","Contract Law, Compliance, Risk Management",Mark Anderson,Washington DC

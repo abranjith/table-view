@@ -1,0 +1,5 @@
+name,age,"quoted text"
+John,25,"Hello, World!"
+Jane,30,"This is a ""quoted"" value"
+Bob,35,"Line 1
+Line 2"

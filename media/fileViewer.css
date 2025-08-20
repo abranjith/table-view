@@ -1,0 +1,386 @@
+/* CSS Variables for VS Code theme integration */
+:root {
+    --vscode-foreground: var(--vscode-editor-foreground);
+    --vscode-background: var(--vscode-editor-background);
+    --vscode-border: var(--vscode-panel-border);
+    --header-background: var(--vscode-editor-lineHighlightBackground);
+    --selected-background: var(--vscode-list-activeSelectionBackground);
+    --hover-background: var(--vscode-list-hoverBackground);
+    --button-background: var(--vscode-button-background);
+    --button-foreground: var(--vscode-button-foreground);
+    --button-hover-background: var(--vscode-button-hoverBackground);
+    --modal-background: var(--vscode-dropdown-background);
+    --modal-border: var(--vscode-dropdown-border);
+}
+
+/* Column colors for better readability */
+.column-0 { color: var(--vscode-foreground); }
+.column-1 { color: #4CAF50; }
+.column-2 { color: #2196F3; }
+.column-3 { color: #FF9800; }
+.column-4 { color: #9C27B0; }
+.column-5 { color: #F44336; }
+.column-6 { color: #009688; }
+.column-7 { color: #795548; }
+.column-8 { color: #607D8B; }
+.column-9 { color: #E91E63; }
+
+/* Dark theme adjustments */
+.vscode-dark .column-1 { color: #81C784; }
+.vscode-dark .column-2 { color: #64B5F6; }
+.vscode-dark .column-3 { color: #FFB74D; }
+.vscode-dark .column-4 { color: #BA68C8; }
+.vscode-dark .column-5 { color: #EF5350; }
+.vscode-dark .column-6 { color: #4DB6AC; }
+.vscode-dark .column-7 { color: #A1887F; }
+.vscode-dark .column-8 { color: #90A4AE; }
+.vscode-dark .column-9 { color: #F06292; }
+
+body {
+    font-family: var(--vscode-font-family);
+    font-size: var(--vscode-font-size);
+    color: var(--vscode-foreground);
+    background-color: var(--vscode-background);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#controls {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--vscode-border);
+    background-color: var(--vscode-background);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+#controlsLeft {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+#controlsRight {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+#controlsLeft #rawTextLabel,
+#controlsLeft #hasHeaderLabel,
+#controlsLeft #fitToScreenLabel,
+#controlsLeft #delimiterLabel,
+#controls #rawTextLabel,
+#controls #hasHeaderLabel,
+#controls #fitToScreenLabel,
+#controls #delimiterLabel,
+#rawTextLabel,
+#hasHeaderLabel,
+#fitToScreenLabel,
+#delimiterLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px; /* Increased from 12px */
+    font-weight: 500; /* Make text slightly bolder */
+    color: var(--vscode-foreground);
+    cursor: pointer;
+}
+
+#controls #rawTextLabel {
+    margin-left: 0; /* Reset margin for controls section */
+}
+
+#controls #hasHeaderLabel {
+    margin-left: 0; /* Reset margin for controls section */
+}
+
+#controlsLeft #rawTextCheckbox,
+#controlsLeft #hasHeaderCheckbox,
+#controlsLeft #fitToScreenCheckbox,
+#controls #rawTextCheckbox,
+#controls #hasHeaderCheckbox,
+#controls #fitToScreenCheckbox,
+#rawTextCheckbox,
+#hasHeaderCheckbox,
+#fitToScreenCheckbox {
+    margin: 0;
+    cursor: pointer;
+    transform: scale(1.2); /* Make checkboxes 20% larger */
+}
+
+#controlsLeft #delimiterInput,
+#controls #delimiterInput,
+#delimiterInput {
+    width: 5ch; /* 5 character width */
+    padding: 4px 6px; /* Increased padding */
+    border: 1px solid var(--vscode-input-border);
+    background-color: var(--vscode-input-background);
+    color: var(--vscode-input-foreground);
+    font-size: 14px; /* Increased from 12px */
+    font-weight: bold; /* Keep bold as specified in HTML */
+    border-radius: 3px; /* Slightly larger border radius */
+    font-family: var(--vscode-font-family);
+    text-align: center;
+}
+
+#controlsLeft #delimiterInput:focus,
+#controls #delimiterInput:focus,
+#delimiterInput:focus {
+    outline: 1px solid var(--vscode-focusBorder);
+    outline-offset: -1px;
+}
+
+#controlsRight #copyBtn,
+#copyBtn {
+    background-color: var(--button-background);
+    color: var(--button-foreground);
+    border: none;
+    padding: 8px 16px; /* Increased padding */
+    cursor: pointer;
+    border-radius: 4px; /* Slightly larger border radius */
+    font-size: 14px; /* Increased from 12px */
+    font-weight: 500; /* Make text slightly bolder */
+    transition: background-color 0.2s ease; /* Smooth hover transition */
+}
+
+#controlsRight #copyBtn:hover:not(:disabled),
+#copyBtn:hover:not(:disabled) {
+    background-color: var(--button-hover-background);
+}
+
+#controlsRight #copyBtn:disabled,
+#copyBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#controlsRight #selectionInfo,
+#selectionInfo {
+    font-size: 13px; /* Increased from 12px */
+    font-weight: 500; /* Make text slightly bolder */
+    opacity: 0.85; /* Slightly more visible */
+}
+
+#tableContainer {
+    height: calc(100vh - 66px); /* Increased from 60px to account for larger toolbar */
+    overflow: auto;
+    position: relative;
+}
+
+#csvTable {
+    width: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+#csvTable.fit-to-screen {
+    width: 100%;
+}
+
+#csvTable th {
+    background-color: var(--header-background);
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid var(--vscode-border);
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    overflow: hidden;
+    min-width: 50px;
+    position: relative;
+    user-select: none;
+}
+
+#csvTable th:hover {
+    background-color: var(--hover-background);
+}
+
+#csvTable th .resize-handle {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    cursor: col-resize;
+    background: transparent;
+    border-right: 2px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+#csvTable th .resize-handle:hover {
+    border-right-color: var(--vscode-focusBorder);
+}
+
+#csvTable th .resize-handle:active {
+    border-right-color: var(--vscode-focusBorder);
+    background-color: rgba(0, 122, 255, 0.1);
+}
+
+/* Visual feedback during column resizing */
+#csvTable th.resizing {
+    background-color: var(--vscode-list-activeSelectionBackground);
+    opacity: 0.8;
+}
+
+/* Prevent text selection during resize */
+body.resizing {
+    user-select: none;
+    cursor: col-resize !important;
+}
+
+#csvTable td {
+    padding: 6px 12px;
+    border: 1px solid var(--vscode-border);
+    border-top: none;
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+#csvTable tbody tr {
+    cursor: pointer;
+}
+
+#csvTable tbody tr:hover {
+    background-color: var(--hover-background);
+}
+
+#csvTable tbody tr.selected {
+    background-color: var(--selected-background);
+}
+
+.cell-content {
+    display: block;
+    line-height: 1.4;
+    max-height: 4.2em; /* 3 lines * 1.4 line-height */
+    overflow: hidden;
+    position: relative;
+    word-break: break-word;
+}
+
+.cell-content.truncated {
+    max-height: none; /* Allow content to expand for button */
+    overflow: visible;
+}
+
+.cell-content.truncated .truncated-text {
+    display: block;
+    max-height: 2.8em; /* 2 lines * 1.4 line-height */
+    overflow: hidden;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.show-more-btn {
+    display: inline-block;
+    background: none;
+    color: var(--vscode-textLink-foreground);
+    cursor: pointer;
+    font-size: 12px; /* Increased from 11px */
+    font-weight: 500; /* Make text slightly bolder */
+    text-decoration: underline;
+    padding: 2px 4px; /* Add small padding for better clickability */
+    border: none;
+    margin: 0;
+    line-height: 1.2;
+    font-family: inherit;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+    border-radius: 2px; /* Small border radius */
+}
+
+.show-more-btn:hover {
+    color: var(--vscode-textLink-activeForeground);
+    opacity: 1;
+    background-color: var(--vscode-list-hoverBackground); /* Add subtle hover background */
+}
+
+.show-more-btn:focus {
+    outline: 1px solid var(--vscode-focusBorder);
+    outline-offset: 1px;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: var(--modal-background);
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid var(--modal-border);
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--vscode-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--vscode-foreground);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 26px; /* Increased from 24px */
+    cursor: pointer;
+    color: var(--vscode-foreground);
+    padding: 0;
+    width: 34px; /* Increased from 30px */
+    height: 34px; /* Increased from 30px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease; /* Smooth hover transition */
+}
+
+.close-btn:hover {
+    background-color: var(--hover-background);
+    border-radius: 3px; /* Slightly larger border radius */
+}
+
+.modal-body {
+    padding: 20px;
+    overflow: auto;
+    flex: 1;
+    max-height: calc(80vh - 100px); /* Account for header height */
+}
+
+#modalText {
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+    font-family: var(--vscode-editor-font-family);
+    font-size: var(--vscode-editor-font-size);
+    line-height: 1.4;
+    color: var(--vscode-foreground);
+    background: none;
+    max-height: none;
+    overflow-wrap: break-word;
+}
