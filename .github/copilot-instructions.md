@@ -1,6 +1,6 @@
-# CSV Table Viewer
+# Table View
 
-`csv-viewer` is a Visual Studio Code extension that focuses on presenting CSV data in a clear, readable, and user-friendly table format.
+`table-view` is a Visual Studio Code extension that focuses on presenting delimited data in a clear, readable, and user-friendly table format.
 
 **Primary Goal:** The extension's main purpose is **data presentation**. It is a **read-only viewer**. All features should prioritize displaying data effectively without modifying the source file. Editing capabilities are out of scope for the initial version.
 

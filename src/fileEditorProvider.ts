@@ -60,17 +60,22 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
                         // Copy selected rows to clipboard
                         const delimiter = message.delimiter || ',';
                         const fileContent = FileParser.stringify(message.rows, delimiter);
+                        let length = message.rows.length;
+                        if(Boolean(message.hasHeader) && length > 0) length--;
                         vscode.env.clipboard.writeText(fileContent);
-                        vscode.window.showInformationMessage(`Copied ${message.rows.length} row(s) to clipboard`);
+                        vscode.window.showInformationMessage(`Copied ${length} row(s) to clipboard`);
                         return;
                     case 'parseWithDelimiter':
                         // Parse delimited file with custom delimiter and return to webview
-                        const fileData = FileParser.parse(message.rawText, message.delimiter);
+                        const fileData = FileParser.parse(message.rawText, message.delimiter || ',', message.useRawContent);
                         webviewPanel.webview.postMessage({
                             type: 'parsedData',
                             data: fileData
                         });
                         return;
+                    default:
+                        // Handle unknown message types
+                        console.warn(`Unknown message type: ${message.type}`);
                 }
             },
             undefined,
@@ -123,7 +128,9 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
             </label>
         </div>
         <div id="controlsRight">
-            <button id="copyBtn" disabled>Copy Selected Rows</button>
+            <button id="copyBtn" disabled title="Copy Selected Rows"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+</svg></button>
             <span id="selectionInfo">No rows selected</span>
         </div>
     </div>
