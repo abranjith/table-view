@@ -1,14 +1,14 @@
-# CSV Table Viewer
+# Simple File Viewer
 
-A Visual Studio Code extension that provides a clear, readable table view for CSV files with advanced features for data presentation.
+A Visual Studio Code extension that provides a clear, readable table view for text files with delimiter (such as CSV) with advanced features for data presentation.
 
 ## Features
 
 ### 🔍 **Clear Data Presentation**
-- View CSV files in a clean, formatted table with proper column alignment
-- Sticky header row that remains visible while scrolling
+- View files with delimiter (such as CSV) in a clean, formatted table with proper column alignment
 - Distinct color coding for each column to improve readability
 - Automatic theme integration (supports both light and dark VS Code themes)
+- Support for files with or without headers
 
 ### 📏 **Flexible Column Management**
 - Automatic column width calculation based on content
@@ -16,8 +16,7 @@ A Visual Studio Code extension that provides a clear, readable table view for CS
 - Proper text wrapping to prevent horizontal overflow
 
 ### 📋 **Smart Content Handling**
-- Truncation of large cell content (>3 lines) with "Show More" links
-- Modal dialog for viewing full text content
+- Truncation of large cell content (>3 lines) with "Show More" links. Modal dialog for viewing full text content
 - Robust CSV parsing that handles:
   - Quoted and unquoted fields
   - Commas and newlines within quoted fields
@@ -29,15 +28,15 @@ A Visual Studio Code extension that provides a clear, readable table view for CS
 - Multi-row selection with `Ctrl+Click`
 - Range selection with `Shift+Click`
 - Select all rows with `Ctrl+A`
-- Copy selected rows to clipboard in CSV format
+- Copy selected rows to clipboard in original format
 
 ## Usage
 
-### Opening CSV Files
+### Opening Delimited Files
 
-1. **Right-click method**: Right-click any `.csv` file in the Explorer and select "Open as Table"
-2. **Command Palette**: Use `Ctrl+Shift+P` and search for "CSV Table Viewer: Open as Table"
-3. **Editor title**: Click the "Open as Table" button in the editor title bar when viewing a CSV file
+1. **Right-click method**: Right-click any delimited file in the Explorer and select "Open as Table"
+2. **Command Palette**: Use `Ctrl+Shift+P` and search for "File Viewer: Open as Table"
+3. **Editor title**: Click the "Open as Table" button in the editor title bar when viewing a delimited file
 
 ### Keyboard Shortcuts
 
@@ -45,26 +44,11 @@ A Visual Studio Code extension that provides a clear, readable table view for CS
 - `Ctrl+C` - Copy selected rows (via Copy button in toolbar)
 - `Escape` - Close modal dialog
 
-### Column Resizing
-
-Hover over the column dividers in the header row and drag to resize columns to your preferred width.
-
-## CSV Format Support
-
-This extension robustly handles various CSV format variations:
-
-```csv
-Name,Age,City
-John,25,New York
-"Smith, Jane",30,"Los Angeles, CA"
-"He said ""Hello""",35,Chicago
-```
-
 ## Installation
 
 1. Install the extension from the VS Code marketplace
-2. Open any `.csv` file
-3. Choose to open it with "CSV Table Viewer"
+2. Open any delimited text file
+3. Choose to open it with "File Viewer"
 
 ## Requirements
 
@@ -85,14 +69,13 @@ This extension contributes the following commands:
 
 ### 0.0.1
 
-Initial release of CSV Table Viewer:
+Initial release of File Viewer:
 - Basic table rendering with sticky headers
 - Column resizing and text wrapping
 - Row selection and copying
 - Modal dialogs for large text content
-- Robust CSV parsing
 - Theme integration
 
 ---
 
-**Enjoy viewing your CSV data in a beautiful, readable format!** 📊
+**Enjoy viewing your file data in a beautiful, readable format!** 📊

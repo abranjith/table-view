@@ -19,159 +19,16 @@ export class FileParser {
             .replace(/\\\\/g, '\\');    // Backslash (must be last)
     }
 
-    /**
-     * Parse File content into a 2D array
-     * @param content The raw File content as string
-     * @param delimiter The delimiter to use for parsing (default: ',')
-     * @returns Array of arrays representing rows and columns
-     */
-    static parse1(content: string, delimiter: string = ','): string[][] {
-        // Process escape sequences in delimiter
-        const processedDelimiter = this.processEscapeSequences(delimiter);
-        
-        const rows: string[][] = [];
-        let currentRow: string[] = [];
-        let currentField = '';
-        let inQuotes = false;
-        let i = 0;
-
-        while (i < content.length) {
-            const char = content[i];
-            const nextChar = content[i + 1];
-
-            if (!inQuotes) {
-                if (char === '"') {
-                    inQuotes = true;
-                } else if (content.substring(i, i + processedDelimiter.length) === processedDelimiter) {
-                    currentRow.push(currentField.trim());
-                    currentField = '';
-                    i += processedDelimiter.length - 1; // Skip delimiter characters (-1 because loop will increment)
-                } else if (char === '\n' || char === '\r') {
-                    currentRow.push(currentField.trim());
-                    if (currentRow.length > 0 || currentField.length > 0) {
-                        rows.push(currentRow);
-                    }
-                    currentRow = [];
-                    currentField = '';
-                    
-                    // Skip \r\n combination
-                    if (char === '\r' && nextChar === '\n') {
-                        i++;
-                    }
-                } else {
-                    currentField += char;
-                }
-            } else {
-                // Inside quotes
-                if (char === '"') {
-                    if (nextChar === '"') {
-                        // Escaped quote
-                        currentField += '"';
-                        i++; // Skip next quote
-                    } else {
-                        // End of quoted field
-                        inQuotes = false;
-                    }
-                } else {
-                    currentField += char;
-                }
-            }
-            i++;
-        }
-
-        // Handle last field and row
-        if (currentField.length > 0 || currentRow.length > 0) {
-            currentRow.push(currentField.trim());
-        }
-        if (currentRow.length > 0) {
-            rows.push(currentRow);
-        }
-
-        return this.normalizeRows(rows);
-    }
 
     static parse(content: string, delimiter: string = ',', useRawContent: boolean = false): string[][] {
         // Process escape sequences in delimiter
-        const processedDelimiter = delimiter
-            .replace(/\\t/g, '\t')      // Tab
-            .replace(/\\n/g, '\n')      // Newline  
-            .replace(/\\r/g, '\r')      // Carriage return
-            .replace(/\\b/g, '\b')      // Backspace
-            .replace(/\\f/g, '\f')      // Form feed
-            .replace(/\\v/g, '\v')      // Vertical tab
-            .replace(/\\0/g, '\0')      // Null character
-            .replace(/\\\\/g, '\\');    // Backslash (must be last)
+        const processedDelimiter = this.processEscapeSequences(delimiter || ",");
 
         if(!content){
             return [];
         }
 
-        if (useRawContent) {
-            // Raw text parsing - respect quotes for proper column separation but don't process the content
-            const rows: string[][] = [];
-            let currentRow: string[] = [];
-            let currentField = '';
-            let inQuotes = false;
-            let i = 0;
-
-            while (i < content.length) {
-                const char = content[i];
-                const nextChar = content[i + 1];
-
-                if (!inQuotes) {
-                    if (char === '"') {
-                        inQuotes = true;
-                        currentField += char; // Include quote in raw mode
-                    } else if (content.substring(i, i + processedDelimiter.length) === processedDelimiter) {
-                        currentRow.push(currentField); // Don't trim in raw mode
-                        currentField = '';
-                        i += processedDelimiter.length - 1; // Skip delimiter characters (-1 because loop will increment)
-                    } else if (char === '\n' || char === '\r') {
-                        currentRow.push(currentField); // Don't trim in raw mode
-                        if (currentRow.length > 0 || currentField.length > 0) {
-                            rows.push(currentRow);
-                        }
-                        currentRow = [];
-                        currentField = '';
-                        
-                        // Skip \r\n combination
-                        if (char === '\r' && nextChar === '\n') {
-                            i++;
-                        }
-                    } else {
-                        currentField += char;
-                    }
-                } else {
-                    // Inside quotes - include everything as-is
-                    if (char === '"') {
-                        currentField += char; // Include quote in raw mode
-                        if (nextChar === '"') {
-                            // Escaped quote - include both quotes
-                            currentField += '"';
-                            i++; // Skip next quote
-                        } else {
-                            // End of quoted field
-                            inQuotes = false;
-                        }
-                    } else {
-                        currentField += char;
-                    }
-                }
-                i++;
-            }
-
-            // Handle last field and row
-            if (currentField.length > 0 || currentRow.length > 0) {
-                currentRow.push(currentField); // Don't trim in raw mode
-            }
-            if (currentRow.length > 0) {
-                rows.push(currentRow);
-            }
-
-            return this.normalizeRows(rows);
-        }
-            
-        // Standard CSV parsing with quote handling
+        // Raw text parsing - respect quotes for proper column separation but don't process the content
         const rows: string[][] = [];
         let currentRow: string[] = [];
         let currentField = '';
@@ -185,12 +42,15 @@ export class FileParser {
             if (!inQuotes) {
                 if (char === '"') {
                     inQuotes = true;
+                    if (useRawContent) currentField += char; // Include quote in raw mode
                 } else if (content.substring(i, i + processedDelimiter.length) === processedDelimiter) {
-                    currentRow.push(currentField.trim());
+                    currentField = useRawContent ? currentField : currentField.trim();
+                    currentRow.push(currentField); // Don't trim in raw mode
                     currentField = '';
                     i += processedDelimiter.length - 1; // Skip delimiter characters (-1 because loop will increment)
                 } else if (char === '\n' || char === '\r') {
-                    currentRow.push(currentField.trim());
+                    currentField = useRawContent ? currentField : currentField.trim();
+                    currentRow.push(currentField); // Don't trim in raw mode
                     if (currentRow.length > 0 || currentField.length > 0) {
                         rows.push(currentRow);
                     }
@@ -205,10 +65,11 @@ export class FileParser {
                     currentField += char;
                 }
             } else {
-                // Inside quotes
+                // Inside quotes - include everything as-is
                 if (char === '"') {
+                    if (useRawContent) currentField += char; // Include quote in raw mode
                     if (nextChar === '"') {
-                        // Escaped quote
+                        // Escaped quote - include both quotes
                         currentField += '"';
                         i++; // Skip next quote
                     } else {
@@ -224,7 +85,8 @@ export class FileParser {
 
         // Handle last field and row
         if (currentField.length > 0 || currentRow.length > 0) {
-            currentRow.push(currentField.trim());
+            currentField = useRawContent ? currentField : currentField.trim();
+            currentRow.push(currentField); // Don't trim in raw mode
         }
         if (currentRow.length > 0) {
             rows.push(currentRow);

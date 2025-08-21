@@ -1,6 +1,6 @@
 {
   "name": "file-viewer",
-  "displayName": "File Viewer",
+  "displayName": "Simple File Viewer",
   "description": "View delimited files in a clear, readable table format",
   "version": "0.0.1",
   "engines": {
@@ -24,14 +24,14 @@
       "explorer/context": [
         {
           "command": "fileViewer.openAsTable",
-          "when": "resourceExtname == .csv",
+          "when": "resourceScheme == file",
           "group": "navigation"
         }
       ],
       "editor/title": [
         {
           "command": "fileViewer.openAsTable",
-          "when": "resourceExtname == .csv",
+          "when": "resourceScheme == file",
           "group": "navigation"
         }
       ]
@@ -42,7 +42,7 @@
         "displayName": "Table View",
         "selector": [
           {
-            "filenamePattern": "*.csv"
+            "filenamePattern": "*"
           }
         ],
         "priority": "option"

@@ -145,7 +145,6 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
     <div id="textModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Full Text Content</h3>
                 <button class="close-btn" id="closeModal">&times;</button>
             </div>
             <div class="modal-body">
