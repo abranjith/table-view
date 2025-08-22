@@ -1,15 +1,25 @@
 {
-  "name": "file-viewer",
+  "name": "simple-file-viewer",
   "displayName": "Simple File Viewer",
-  "description": "View delimited files in a clear, readable table format",
+  "description": "View delimited text files (such as CSV) in a clear, readable table format",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.103.0"
   },
+  "publisher": "ab-ranjith",
+  "license": "SEE LICENSE IN LICENSE",
   "categories": [
     "Data Science",
     "Visualization"
   ],
+  "author": {
+    "name": "ranjith"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abranjith/table-view.git"
+  },
+  "homepage": "https://github.com/abranjith/table-view/blob/main/README.md",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {

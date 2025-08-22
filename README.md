@@ -44,12 +44,6 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 - `Ctrl+C` - Copy selected rows (via Copy button in toolbar)
 - `Escape` - Close modal dialog
 
-## Installation
-
-1. Install the extension from the VS Code marketplace
-2. Open any delimited text file
-3. Choose to open it with "File Viewer"
-
 ## Requirements
 
 - Visual Studio Code version 1.103.0 or higher
