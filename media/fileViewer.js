@@ -339,9 +339,9 @@
         if (selectedRows.size === 0) return;
         
         const rowsToCopy = [];
-        
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
         // Add header row
-        rowsToCopy.push(fileData[0]);
+        if (hasHeader && fileData.length > 0) rowsToCopy.push(fileData[0]);
         
         // Add selected data rows
         const sortedIndices = Array.from(selectedRows).sort((a, b) => a - b);
@@ -357,7 +357,7 @@
             type: 'copy',
             rows: rowsToCopy,
             delimiter: currentDelimiter,
-            hasHeader: hasHeaderCheckbox && hasHeaderCheckbox.checked
+            hasHeader: hasHeader
         });
     }
 
@@ -471,12 +471,14 @@
 
     // Handle select all with Ctrl+A
     document.addEventListener('keydown', (e) => {
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
         if ((e.ctrlKey || e.metaKey) && e.key === 'a' && modal.style.display !== 'block') {
             e.preventDefault();
             
             // Select all data rows (excluding header)
             selectedRows.clear();
-            for (let i = 1; i < fileData.length; i++) {
+            const startIdx = hasHeader ? 1 : 0;
+            for (let i = startIdx; i < fileData.length; i++) {
                 selectedRows.add(i);
             }
             
