@@ -32,6 +32,10 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 ## Usage
 
+### Quick Demo
+
+![Demo](./docs/images/demo.gif)
+
 ### Opening Delimited Files
 
 Drag and drop or open file in the VS Code editor and follow any of the below techniques to view the data.
@@ -39,10 +43,6 @@ Drag and drop or open file in the VS Code editor and follow any of the below tec
   1. **Right-click method**: Right-click any delimited file in the Explorer and select "Open as Table"
   2. **Command Palette**: Use `Ctrl+Shift+P` and search for "File Viewer: Open as Table"
   3. **Editor title**: Click the "Open as Table" button in the editor title bar when viewing a delimited file
-
-### Quick Demo
-
-![Demo](./docs/images/demo.png)
 
 ### Keyboard Shortcuts
 
