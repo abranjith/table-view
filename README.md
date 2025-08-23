@@ -17,7 +17,7 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 ### 📋 **Smart Content Handling**
 - Truncation of large cell content (>3 lines) with "Show More" links. Modal dialog for viewing full text content
-- Robust CSV parsing that handles:
+- Robust file parsing that handles:
   - Quoted and unquoted fields
   - Commas and newlines within quoted fields
   - Escaped quotes
@@ -34,9 +34,15 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 ### Opening Delimited Files
 
-1. **Right-click method**: Right-click any delimited file in the Explorer and select "Open as Table"
-2. **Command Palette**: Use `Ctrl+Shift+P` and search for "File Viewer: Open as Table"
-3. **Editor title**: Click the "Open as Table" button in the editor title bar when viewing a delimited file
+Drag and drop or open file in the VS Code editor and follow any of the below techniques to view the data.
+
+  1. **Right-click method**: Right-click any delimited file in the Explorer and select "Open as Table"
+  2. **Command Palette**: Use `Ctrl+Shift+P` and search for "File Viewer: Open as Table"
+  3. **Editor title**: Click the "Open as Table" button in the editor title bar when viewing a delimited file
+
+### Quick Demo
+
+![Demo](./docs/images/demo.png)
 
 ### Keyboard Shortcuts
 
@@ -52,11 +58,11 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 This extension contributes the following commands:
 
-- `fileViewer.openAsTable`: Open the current CSV file as a table view
+- `fileViewer.openAsTable`: Open the current file as a table view
 
 ## Known Issues
 
-- Very large CSV files (>100MB) may experience performance issues
+- Very large files (>100MB) may experience performance issues
 - Virtual scrolling for extremely large datasets is planned for future releases
 
 ## Release Notes
