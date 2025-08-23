@@ -31,9 +31,9 @@ export class FileParser {
         // Raw text parsing - respect quotes for proper column separation but don't process the content
         const rows: string[][] = [];
         let currentRow: string[] = [];
-        let currentField = '';
-        let inQuotes = false;
-        let i = 0;
+        let currentField: string = '';
+        let inQuotes: Boolean = false;
+        let i: number = 0;
 
         while (i < content.length) {
             const char = content[i];
@@ -45,12 +45,12 @@ export class FileParser {
                     if (useRawContent) currentField += char; // Include quote in raw mode
                 } else if (content.substring(i, i + processedDelimiter.length) === processedDelimiter) {
                     currentField = useRawContent ? currentField : currentField.trim();
-                    currentRow.push(currentField); // Don't trim in raw mode
+                    currentRow.push(currentField);
                     currentField = '';
                     i += processedDelimiter.length - 1; // Skip delimiter characters (-1 because loop will increment)
                 } else if (char === '\n' || char === '\r') {
                     currentField = useRawContent ? currentField : currentField.trim();
-                    currentRow.push(currentField); // Don't trim in raw mode
+                    currentRow.push(currentField);
                     if (currentRow.length > 0 || currentField.length > 0) {
                         rows.push(currentRow);
                     }
@@ -70,7 +70,7 @@ export class FileParser {
                     if (useRawContent) currentField += char; // Include quote in raw mode
                     if (nextChar === '"') {
                         // Escaped quote - include both quotes
-                        currentField += '"';
+                        currentField += nextChar;
                         i++; // Skip next quote
                     } else {
                         // End of quoted field

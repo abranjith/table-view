@@ -5,6 +5,7 @@
     const vscode = acquireVsCodeApi();
     
     let fileData = [];
+    let fileRowCount = 0;
     let selectedRows = new Set();
     let rawTextData = '';
     let isResizing = false;
@@ -78,16 +79,6 @@
     });
 
     function parseAndRenderTable() {
-        /* AI slop code!
-        if (!rawTextData) {
-            fileData = [];
-        } else {
-            const delimiter = delimiterInput ? delimiterInput.value || ',' : ',';
-            const rawText = rawTextCheckbox && rawTextCheckbox.checked;
-            fileData = parseCSV(rawTextData, delimiter, rawText);
-        }
-        renderTable();
-        */
        // Send message to extension to copy to clipboard
         vscode.postMessage({
             type: 'parseWithDelimiter',
@@ -117,6 +108,8 @@
             table.innerHTML = '<tbody><tr><td>No data to display</td></tr></tbody>';
             return;
         }
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        fileRowCount = hasHeader ? fileData.length - 1 : fileData.length;
 
         // Clear existing content
         header.innerHTML = '';
@@ -133,7 +126,7 @@
 
         // Create header row
         const headerRow = document.createElement('tr');
-        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        
         
         if (hasHeader) {
             // Use first row as headers
@@ -326,12 +319,13 @@
 
     function updateSelectionUI() {
         const count = selectedRows.size;
+        const total = (fileRowCount && fileRowCount > 0) ?  ` of total ${fileRowCount} row${fileRowCount > 1 ? 's' : ''}` : '';
         if (count === 0) {
             copyBtn.disabled = true;
-            selectionInfo.textContent = 'No rows selected';
+            selectionInfo.textContent = 'No rows selected' + total;
         } else {
             copyBtn.disabled = false;
-            selectionInfo.textContent = `${count} row${count > 1 ? 's' : ''} selected`;
+            selectionInfo.textContent = `${count} row${count > 1 ? 's' : ''} selected` + total;
         }
     }
 

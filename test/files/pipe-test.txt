@@ -1,5 +1,0 @@
-Name|Age|City|Occupation
-John Doe|30|New York|Software Engineer
-Jane Smith|25|Los Angeles|Designer
-Bob Johnson|35|Chicago|Manager
-Alice Brown|28|Houston|Analyst

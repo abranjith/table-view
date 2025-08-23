@@ -263,6 +263,7 @@ body.resizing {
     overflow: hidden;
     position: relative;
     word-break: break-word;
+    white-space: break-spaces;
 }
 
 .cell-content.truncated {
