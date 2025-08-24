@@ -2,7 +2,7 @@
   "name": "simple-file-viewer",
   "displayName": "Simple File Viewer",
   "description": "View delimited text files (such as CSV) in a clear, readable table format",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.103.0"
   },
