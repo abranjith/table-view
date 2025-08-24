@@ -67,6 +67,12 @@ This extension contributes the following commands:
 
 ## Release Notes
 
+### 0.0.2
+
+Minor fixes:
+- Fix issues around copying headerless
+- Code cleanup
+
 ### 0.0.1
 
 Initial release of File Viewer:
