@@ -65,7 +65,7 @@ body {
 #controlsRight {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 12px; /* Reduced gap since we now have a divider */
 }
 
 #controlsLeft #rawTextLabel,
@@ -133,28 +133,116 @@ body {
     outline-offset: -1px;
 }
 
+/* Button styles for both Edit and Copy buttons */
+#controlsRight #editBtn,
 #controlsRight #copyBtn,
+#editBtn,
 #copyBtn {
     background-color: var(--button-background);
     color: var(--button-foreground);
     border: none;
-    padding: 8px 16px; /* Increased padding */
+    padding: 8px 12px; /* Adjusted padding for consistent sizing */
     cursor: pointer;
-    border-radius: 4px; /* Slightly larger border radius */
-    font-size: 14px; /* Increased from 12px */
-    font-weight: 500; /* Make text slightly bolder */
-    transition: background-color 0.2s ease; /* Smooth hover transition */
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px; /* Ensure consistent button width */
+    min-height: 32px; /* Ensure consistent button height */
 }
 
+/* Ensure SVG elements are visible and properly sized */
+#editBtn svg,
+#copyBtn svg,
+#controlsRight #editBtn svg,
+#controlsRight #copyBtn svg {
+    pointer-events: none; /* Prevent SVG from interfering with button clicks */
+    vertical-align: middle;
+}
+
+#controlsRight #editBtn:hover:not(:disabled),
 #controlsRight #copyBtn:hover:not(:disabled),
+#editBtn:hover:not(:disabled),
 #copyBtn:hover:not(:disabled) {
     background-color: var(--button-hover-background);
 }
 
+#controlsRight #editBtn:disabled,
 #controlsRight #copyBtn:disabled,
+#editBtn:disabled,
 #copyBtn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+/* Neon accent colors for button icons */
+#editBtn svg,
+#controlsRight #editBtn svg {
+    fill: #00ffff !important; /* Cyan/Teal neon - works well in both themes */
+    color: #00ffff;
+    transition: fill 0.2s ease;
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-right: 4px;
+}
+
+#copyBtn svg,
+#controlsRight #copyBtn svg {
+    fill: #ff6b6b !important; /* Coral/Pink neon - works well in both themes */
+    color: #ff6b6b;
+    transition: fill 0.2s ease;
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-right: 4px;
+}
+
+#editBtn:hover:not(:disabled) svg,
+#controlsRight #editBtn:hover:not(:disabled) svg {
+    fill: #66ffff !important; /* Brighter cyan on hover */
+}
+
+#copyBtn:hover:not(:disabled) svg,
+#controlsRight #copyBtn:hover:not(:disabled) svg {
+    fill: #ff8888 !important; /* Brighter coral on hover */
+}
+
+#editBtn:disabled svg,
+#copyBtn:disabled svg,
+#controlsRight #editBtn:disabled svg,
+#controlsRight #copyBtn:disabled svg {
+    fill: var(--vscode-foreground) !important;
+    opacity: 0.4;
+}
+
+/* Style the emoji fallbacks */
+#editBtn {
+    color: #00ffff; /* Cyan for edit */
+}
+
+#copyBtn {
+    color: #ff6b6b; /* Coral for copy */
+}
+
+#editBtn:hover:not(:disabled) {
+    color: #66ffff;
+}
+
+#copyBtn:hover:not(:disabled) {
+    color: #ff8888;
+}
+
+/* Vertical divider between Edit and Copy buttons */
+.button-divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--vscode-border);
+    opacity: 0.6;
+    margin: 0 8px;
 }
 
 #controlsRight #selectionInfo,
