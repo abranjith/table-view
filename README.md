@@ -37,8 +37,7 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 ### Quick Demo
 
-<video src="./docs/images/demo.mp4" controls="controls" style="max-width: 730px;">
-</video>
+<video src="https://raw.githubusercontent.com/abranjith/table-view/main/docs/images/demo.mp4" controls title="demo video" style="max-width: 730px;"></video>
 
 ### Opening Delimited Files
 
