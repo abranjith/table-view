@@ -1,7 +1,8 @@
 {
   "name": "simple-file-viewer",
-  "displayName": "Simple File Viewer",
-  "description": "View delimited text files (such as CSV) in a clear, readable table format",
+  "displayName": "Tabulify",
+  "description": "View delimited text files (such as CSV, TSV) in a clear, readable table format",
+  "icon": "media/icon.png",
   "version": "0.0.3",
   "engines": {
     "vscode": "^1.103.0"
@@ -11,6 +12,17 @@
   "categories": [
     "Data Science",
     "Visualization"
+  ],
+  "keywords": [
+    "csv",
+    "tsv",
+    "delimited file",
+    "file viewer",
+    "file view",
+    "grid",
+    "tablular",
+    "table view",
+    "grid view"
   ],
   "author": {
     "name": "ranjith"
@@ -27,7 +39,7 @@
       {
         "command": "fileViewer.openAsTable",
         "title": "Open as Table",
-        "category": "File Viewer"
+        "category": "Tabulify"
       }
     ],
     "menus": {
@@ -49,7 +61,7 @@
     "customEditors": [
       {
         "viewType": "fileViewer.fileEditor",
-        "displayName": "Table View",
+        "displayName": "Tabulify - Table View",
         "selector": [
           {
             "filenamePattern": "*"
