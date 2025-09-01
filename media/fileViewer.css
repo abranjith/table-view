@@ -23,7 +23,21 @@
 .column-8 { color: #607D8B; }
 .column-9 { color: #E91E63; }
 
+/*
+.column-0 { color: #FFC894; }
+.column-1 { color: #AC68D7; }
+.column-2 { color: #96D470; }
+.column-3 { color: #959FEF; }
+.column-4 { color: #F1A3BB; }
+.column-5 { color: #ADD8E6; }
+.column-6 { color: #AAF0D1; }
+.column-7 { color: #A7C7E7; }
+.column-8 { color: #FF756D; }
+.column-9 { color: #F2EE8F; }
+*/
+
 /* Dark theme adjustments */
+/*
 .vscode-dark .column-1 { color: #81C784; }
 .vscode-dark .column-2 { color: #64B5F6; }
 .vscode-dark .column-3 { color: #FFB74D; }
@@ -33,6 +47,18 @@
 .vscode-dark .column-7 { color: #A1887F; }
 .vscode-dark .column-8 { color: #90A4AE; }
 .vscode-dark .column-9 { color: #F06292; }
+*/
+
+.vscode-dark .column-0 { color: #b38ffc; }
+.vscode-dark .column-1 { color: #98e0e2; }
+.vscode-dark .column-2 { color: #78aaff; }
+.vscode-dark .column-3 { color: #9ef79e; }
+.vscode-dark .column-4 { color: #FF8585; }
+.vscode-dark .column-5 { color: #fcb2bf; }
+.vscode-dark .column-6 { color: #f8ca75; }
+.vscode-dark .column-7 { color: #fcc6b3; }
+.vscode-dark .column-8 { color: #ac8ed1; }
+.vscode-dark .column-9 { color: #9ef0cb; }
 
 body {
     font-family: var(--vscode-font-family);
@@ -206,8 +232,8 @@ body {
 
 #copyBtn svg,
 #controlsRight #copyBtn svg {
-    fill: #ff6b6b !important; /* Coral/Pink neon - works well in both themes */
-    color: #ff6b6b;
+    fill: #e8eb50 !important; /* Coral/Pink neon - works well in both themes */
+    color: #e8eb50;
     transition: fill 0.2s ease;
     width: 16px;
     height: 16px;
@@ -217,8 +243,8 @@ body {
 
 #saveBtn svg,
 #controlsRight #saveBtn svg {
-    fill: #4CAF50 !important; /* Green for save */
-    color: #4CAF50;
+    fill: #03bd09 !important; /* Green for save */
+    color: #03bd09;
     transition: fill 0.2s ease;
     width: 16px;
     height: 16px;
@@ -239,22 +265,22 @@ body {
 
 #editBtn:hover:not(:disabled) svg,
 #controlsRight #editBtn:hover:not(:disabled) svg {
-    fill: #66ffff !important; /* Brighter cyan on hover */
+    fill: #28f0f0 !important; /* Brighter cyan on hover */
 }
 
 #copyBtn:hover:not(:disabled) svg,
 #controlsRight #copyBtn:hover:not(:disabled) svg {
-    fill: #ff8888 !important; /* Brighter coral on hover */
+    fill: #e2e604 !important; /* Brighter coral on hover */
 }
 
 #saveBtn:hover:not(:disabled) svg,
 #controlsRight #saveBtn:hover:not(:disabled) svg {
-    fill: #66BB6A !important; /* Brighter green on hover */
+    fill: #42b347 !important; /* Brighter green on hover */
 }
 
 #cancelBtn:hover:not(:disabled) svg,
 #controlsRight #cancelBtn:hover:not(:disabled) svg {
-    fill: #f66 !important; /* Brighter red on hover */
+    fill: rgb(238, 46, 46) !important; /* Brighter red on hover */
 }
 
 #editBtn:disabled svg,

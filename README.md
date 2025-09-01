@@ -10,6 +10,9 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 - Automatic theme integration (supports both light and dark VS Code themes)
 - Support for files with or without headers
 
+### ✏️ **Edit Mode**
+- Inline editing of cell values directly within the table
+
 ### 📏 **Flexible Column Management**
 - Automatic column width calculation based on content
 - Resizable columns by dragging column dividers
@@ -34,7 +37,8 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 ### Quick Demo
 
-![Demo](./docs/images/demo.gif)
+<video src="./docs/images/demo.mp4" controls="controls" style="max-width: 730px;">
+</video>
 
 ### Opening Delimited Files
 

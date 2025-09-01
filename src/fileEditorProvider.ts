@@ -113,8 +113,8 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
             
             edit.replace(document.uri, fullRange, fileContent);
             await vscode.workspace.applyEdit(edit);
-            
-            vscode.window.showInformationMessage('Data updated successfully');
+
+            vscode.window.showInformationMessage('Data updated successfully. Don\'t forget to save the file.');
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to update data: ${error}`);
         }
@@ -144,7 +144,7 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
     <div id="controls">
         <div id="controlsLeft">
             <label id="rawTextLabel">
-                <input type="checkbox" id="rawTextCheckbox"> Raw Text
+                <input type="checkbox" id="rawTextCheckbox" checked> Raw Text
             </label>
             <label id="hasHeaderLabel">
                 <input type="checkbox" id="hasHeaderCheckbox" checked> Has Header

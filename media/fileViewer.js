@@ -89,7 +89,7 @@
     });
 
     function parseRawText() {
-       // Send message to extension to parse and once done invoke 'parsedData'
+       // Send message to extension to parse and once done 'parsedData' is invoked
         vscode.postMessage({
             type: 'parseWithDelimiter',
             rawText: rawTextData,
@@ -494,6 +494,10 @@
         if (hasHeaderCheckbox) hasHeaderCheckbox.disabled = true;
         if (fitToScreenCheckbox) fitToScreenCheckbox.disabled = true;
         if (delimiterInput) delimiterInput.disabled = true;
+
+        // Clear selection
+        selectedRows.clear();
+        updateSelectionUI();
         
         // Make cells editable
         toggleTableEditMode(true);
@@ -584,11 +588,7 @@
         if (delimiterInput) delimiterInput.disabled = false;
         
         // Remove edit mode visual indicator
-        if (table) table.classList.remove('edit-mode');
-        
-        // Clear selection
-        selectedRows.clear();
-        updateSelectionUI();
+        if (table) table.classList.remove('edit-mode');        
     }
 
     // Make table editable
