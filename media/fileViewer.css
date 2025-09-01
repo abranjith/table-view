@@ -23,32 +23,7 @@
 .column-8 { color: #607D8B; }
 .column-9 { color: #E91E63; }
 
-/*
-.column-0 { color: #FFC894; }
-.column-1 { color: #AC68D7; }
-.column-2 { color: #96D470; }
-.column-3 { color: #959FEF; }
-.column-4 { color: #F1A3BB; }
-.column-5 { color: #ADD8E6; }
-.column-6 { color: #AAF0D1; }
-.column-7 { color: #A7C7E7; }
-.column-8 { color: #FF756D; }
-.column-9 { color: #F2EE8F; }
-*/
-
 /* Dark theme adjustments */
-/*
-.vscode-dark .column-1 { color: #81C784; }
-.vscode-dark .column-2 { color: #64B5F6; }
-.vscode-dark .column-3 { color: #FFB74D; }
-.vscode-dark .column-4 { color: #BA68C8; }
-.vscode-dark .column-5 { color: #EF5350; }
-.vscode-dark .column-6 { color: #4DB6AC; }
-.vscode-dark .column-7 { color: #A1887F; }
-.vscode-dark .column-8 { color: #90A4AE; }
-.vscode-dark .column-9 { color: #F06292; }
-*/
-
 .vscode-dark .column-0 { color: #b38ffc; }
 .vscode-dark .column-1 { color: #98e0e2; }
 .vscode-dark .column-2 { color: #78aaff; }
