@@ -48,7 +48,6 @@ Drag and drop or open file in the VS Code editor and follow any of the below tec
 
 - `Ctrl+A` - Select all rows
 - `Ctrl+C` - Copy selected rows (via Copy button in toolbar)
-- `Escape` - Close modal dialog
 
 ## Requirements
 

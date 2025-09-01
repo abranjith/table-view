@@ -189,18 +189,6 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
             <tbody id="csvBody"></tbody>
         </table>
     </div>
-    
-    <!-- Modal for viewing large text content -->
-    <div id="textModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close-btn" id="closeModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <pre id="modalText"></pre>
-            </div>
-        </div>
-    </div>
 
     <script nonce="${nonce}" src="${scriptUri}"></script>
 </body>

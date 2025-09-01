@@ -1,7 +1,4 @@
-// @ts-check
-
 (function() {
-    // @ts-ignore - acquireVsCodeApi is provided by VS Code webview context
     const vscode = acquireVsCodeApi();
     
     let fileData = [];
@@ -24,9 +21,6 @@
     const saveBtn = document.getElementById('saveBtn');
     const cancelBtn = document.getElementById('cancelBtn');
     const selectionInfo = document.getElementById('selectionInfo');
-    const modal = document.getElementById('textModal');
-    const modalText = document.getElementById('modalText');
-    const closeModal2 = document.getElementById('closeModal');
     const rawTextCheckbox = document.getElementById('rawTextCheckbox');
     const hasHeaderCheckbox = document.getElementById('hasHeaderCheckbox');
     const fitToScreenCheckbox = document.getElementById('fitToScreenCheckbox');
@@ -45,9 +39,6 @@
     if (cancelBtn) {
         cancelBtn.addEventListener('click', handleCancel);
     }
-    if (closeModal2) {
-        closeModal2.addEventListener('click', hideModal2);
-    }
     if (rawTextCheckbox) {
         rawTextCheckbox.addEventListener('change', handleRawTextToggle);
     }
@@ -61,22 +52,27 @@
         delimiterInput.addEventListener('input', handleDelimiterChange);
     }
 
-    // Modal close events
-    modal?.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            hideModal2();
-        }
-    });
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal?.style.display === 'block') {
-            hideModal2();
-        }
-    });
-
     // Column resizing events
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+    
+    // Handle select all with Ctrl+A
+    document.addEventListener('keydown', (e) => {
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+            e.preventDefault();
+            
+            // Select all data rows (excluding header)
+            selectedRows.clear();
+            const startIdx = hasHeader ? 1 : 0;
+            for (let i = startIdx; i < fileData.length; i++) {
+                selectedRows.add(i);
+            }
+            
+            updateRowHighlights();
+            updateSelectionUI();
+        }
+    });
 
     // Listen for messages from the extension
     window.addEventListener('message', event => {
@@ -253,56 +249,6 @@
         return container;
     }
 
-    function createCellContent2(text) {
-        const container = document.createElement('div');
-        container.className = 'cell-content';
-        
-        if (!text) {
-            container.textContent = '';
-            return container;
-        }
-        
-        // Check if content exceeds 3 lines (rough estimate based on character count)
-        const lines = text.split('\n');
-        const estimatedLines = lines.reduce((count, line) => {
-            // Estimate line wrapping based on average character width
-            return count + Math.ceil(line.length / 40); // Rough estimate
-        }, 0);
-        
-        if (estimatedLines > 3 || text.length > 150) {
-            // Create truncated content structure
-            container.classList.add('truncated');
-            
-            // Create truncated text container
-            const truncatedTextDiv = document.createElement('div');
-            truncatedTextDiv.className = 'truncated-text';
-            
-            // Truncate content more aggressively to ensure button visibility
-            const truncatedText = text.length > 100 ? text.substring(0, 100) + '...' : text;
-            truncatedTextDiv.textContent = truncatedText;
-            
-            // Create "Show More" button on a new line
-            const showMoreBtn = document.createElement('button');
-            showMoreBtn.className = 'show-more-btn';
-            showMoreBtn.textContent = 'Show More';
-            showMoreBtn.type = 'button';
-            showMoreBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showModal2(text);
-            });
-            
-            // Add truncated text
-            container.appendChild(truncatedTextDiv);
-            
-            // Add button on new line
-            container.appendChild(showMoreBtn);
-        } else {
-            container.textContent = text;
-        }
-        
-        return container;
-    }
-
     function handleRowSelection(event, rowIndex) {
         // Disable row selection in edit mode
         if (isEditMode) {
@@ -383,15 +329,6 @@
             delimiter: currentDelimiter,
             hasHeader: hasHeader
         });
-    }
-
-    function showModal2(text) {
-        modalText.textContent = text;
-        modal.style.display = 'block';
-    }
-
-    function hideModal2() {
-        modal.style.display = 'none';
     }
 
     // Column resizing functionality
@@ -493,23 +430,6 @@
         currentColumn = null;
     }
 
-    // Handle select all with Ctrl+A
-    document.addEventListener('keydown', (e) => {
-        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
-        if ((e.ctrlKey || e.metaKey) && e.key === 'a' && modal.style.display !== 'block') {
-            e.preventDefault();
-            
-            // Select all data rows (excluding header)
-            selectedRows.clear();
-            const startIdx = hasHeader ? 1 : 0;
-            for (let i = startIdx; i < fileData.length; i++) {
-                selectedRows.add(i);
-            }
-            
-            updateRowHighlights();
-            updateSelectionUI();
-        }
-    });
 
     // Handle has header toggle
     function handleHasHeaderToggle() {
@@ -691,53 +611,6 @@
         });
     }
 
-    function makeTableEditable2() {
-        if (!body) return;
-        
-        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
-        const dataStartIndex = hasHeader ? 1 : 0;
-        
-        const rows = body.querySelectorAll('tr');
-        rows.forEach((row, rowIndex) => {
-            const actualRowIndex = dataStartIndex + rowIndex;
-            if (actualRowIndex < fileData.length) {
-                const cells = row.querySelectorAll('td');
-                cells.forEach((cell, columnIndex) => {
-                    // Get the raw data from the original fileData array
-                    const rawCellData = fileData[actualRowIndex][columnIndex] || '';
-                    
-                    // Store original cell dimensions and styles
-                    const originalWidth = cell.offsetWidth;
-                    const originalHeight = cell.offsetHeight;
-                    const computedStyle = window.getComputedStyle(cell);
-                    
-                    // Create textarea for editing with exact same size
-                    const textarea = document.createElement('textarea');
-                    textarea.className = 'edit-cell';
-                    textarea.value = rawCellData;
-                    
-                    // Set exact dimensions to match the original cell
-                    textarea.style.width = originalWidth + 'px';
-                    textarea.style.height = originalHeight + 'px';
-                    textarea.style.minHeight = originalHeight + 'px';
-                    textarea.style.padding = computedStyle.padding;
-                    textarea.style.fontSize = computedStyle.fontSize;
-                    textarea.style.fontFamily = computedStyle.fontFamily;
-                    textarea.style.lineHeight = computedStyle.lineHeight;
-                    textarea.style.boxSizing = 'border-box';
-                    textarea.style.resize = 'none'; // Prevent manual resizing to maintain layout
-                    
-                    // Replace cell content with textarea
-                    cell.innerHTML = '';
-                    cell.appendChild(textarea);
-                    
-                    // Store the raw data as a data attribute for easy access
-                    cell.dataset.originalValue = rawCellData;
-                });
-            }
-        });
-    }
-
     // Collect edited data from table
     function collectEditedData() {
         const editedData = [];
@@ -750,37 +623,6 @@
             const cells = row.querySelectorAll('td');
             cells.forEach(cell => {
                 rowData.push(cell.textContent || '');
-            });
-            if (rowData.length > 0) {
-                editedData.push(rowData);
-            }
-        });
-        
-        // Add header if it exists
-        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
-        if (hasHeader && fileData.length > 0) {
-            editedData.unshift(fileData[0]); // Add original header row
-        }
-        
-        return editedData;
-    }
-
-    function collectEditedData2() {
-        const editedData = [];
-        
-        if (!body) return editedData;
-        
-        const rows = body.querySelectorAll('tr');
-        rows.forEach(row => {
-            const rowData = [];
-            const cells = row.querySelectorAll('td');
-            cells.forEach(cell => {
-                const textarea = cell.querySelector('textarea.edit-cell');
-                if (textarea) {
-                    rowData.push(textarea.value || '');
-                } else {
-                    rowData.push(cell.textContent || '');
-                }
             });
             if (rowData.length > 0) {
                 editedData.push(rowData);
