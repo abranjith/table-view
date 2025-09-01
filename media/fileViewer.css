@@ -133,11 +133,15 @@ body {
     outline-offset: -1px;
 }
 
-/* Button styles for both Edit and Copy buttons */
+/* Button styles for Edit, Copy, Save, and Cancel buttons */
 #controlsRight #editBtn,
 #controlsRight #copyBtn,
+#controlsRight #saveBtn,
+#controlsRight #cancelBtn,
 #editBtn,
-#copyBtn {
+#copyBtn,
+#saveBtn,
+#cancelBtn {
     background-color: var(--button-background);
     color: var(--button-foreground);
     border: none;
@@ -157,23 +161,35 @@ body {
 /* Ensure SVG elements are visible and properly sized */
 #editBtn svg,
 #copyBtn svg,
+#saveBtn svg,
+#cancelBtn svg,
 #controlsRight #editBtn svg,
-#controlsRight #copyBtn svg {
+#controlsRight #copyBtn svg,
+#controlsRight #saveBtn svg,
+#controlsRight #cancelBtn svg {
     pointer-events: none; /* Prevent SVG from interfering with button clicks */
     vertical-align: middle;
 }
 
 #controlsRight #editBtn:hover:not(:disabled),
 #controlsRight #copyBtn:hover:not(:disabled),
+#controlsRight #saveBtn:hover:not(:disabled),
+#controlsRight #cancelBtn:hover:not(:disabled),
 #editBtn:hover:not(:disabled),
-#copyBtn:hover:not(:disabled) {
+#copyBtn:hover:not(:disabled),
+#saveBtn:hover:not(:disabled),
+#cancelBtn:hover:not(:disabled) {
     background-color: var(--button-hover-background);
 }
 
 #controlsRight #editBtn:disabled,
 #controlsRight #copyBtn:disabled,
+#controlsRight #saveBtn:disabled,
+#controlsRight #cancelBtn:disabled,
 #editBtn:disabled,
-#copyBtn:disabled {
+#copyBtn:disabled,
+#saveBtn:disabled,
+#cancelBtn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
@@ -201,6 +217,28 @@ body {
     margin-right: 4px;
 }
 
+#saveBtn svg,
+#controlsRight #saveBtn svg {
+    fill: #4CAF50 !important; /* Green for save */
+    color: #4CAF50;
+    transition: fill 0.2s ease;
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-right: 4px;
+}
+
+#cancelBtn svg,
+#controlsRight #cancelBtn svg {
+    fill: #f44336 !important; /* Red for cancel */
+    color: #f44336;
+    transition: fill 0.2s ease;
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-right: 4px;
+}
+
 #editBtn:hover:not(:disabled) svg,
 #controlsRight #editBtn:hover:not(:disabled) svg {
     fill: #66ffff !important; /* Brighter cyan on hover */
@@ -211,10 +249,24 @@ body {
     fill: #ff8888 !important; /* Brighter coral on hover */
 }
 
+#saveBtn:hover:not(:disabled) svg,
+#controlsRight #saveBtn:hover:not(:disabled) svg {
+    fill: #66BB6A !important; /* Brighter green on hover */
+}
+
+#cancelBtn:hover:not(:disabled) svg,
+#controlsRight #cancelBtn:hover:not(:disabled) svg {
+    fill: #f66 !important; /* Brighter red on hover */
+}
+
 #editBtn:disabled svg,
 #copyBtn:disabled svg,
+#saveBtn:disabled svg,
+#cancelBtn:disabled svg,
 #controlsRight #editBtn:disabled svg,
-#controlsRight #copyBtn:disabled svg {
+#controlsRight #copyBtn:disabled svg,
+#controlsRight #saveBtn:disabled svg,
+#controlsRight #cancelBtn:disabled svg {
     fill: var(--vscode-foreground) !important;
     opacity: 0.4;
 }
@@ -228,12 +280,28 @@ body {
     color: #ff6b6b; /* Coral for copy */
 }
 
+#saveBtn {
+    color: #4CAF50; /* Green for save */
+}
+
+#cancelBtn {
+    color: #f44336; /* Red for cancel */
+}
+
 #editBtn:hover:not(:disabled) {
     color: #66ffff;
 }
 
 #copyBtn:hover:not(:disabled) {
     color: #ff8888;
+}
+
+#saveBtn:hover:not(:disabled) {
+    color: #66BB6A;
+}
+
+#cancelBtn:hover:not(:disabled) {
+    color: #f66;
 }
 
 /* Vertical divider between Edit and Copy buttons */
@@ -352,6 +420,9 @@ body.resizing {
     position: relative;
     word-break: break-word;
     white-space: break-spaces;
+    overflow-y: auto;   /* Enable vertical scrolling when content exceeds max-height */
+    /* Optional: Add padding or other styling for better appearance */
+    padding: 2px;
 }
 
 .cell-content.truncated {
@@ -365,6 +436,20 @@ body.resizing {
     overflow: hidden;
     margin-bottom: 4px;
     line-height: 1.4;
+}
+
+.scrollable-cell {
+  max-height: 150px; /* Set a maximum height for the cell content */
+  overflow-y: auto;   /* Enable vertical scrolling when content exceeds max-height */
+  /* Optional: Add padding or other styling for better appearance */
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Makes cell editable */
+[contenteditable="true"]:focus {
+    outline: 2px solid #4A90E2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
 }
 
 .show-more-btn {
@@ -466,4 +551,59 @@ body.resizing {
     background: none;
     max-height: none;
     overflow-wrap: break-word;
+}
+
+/* Edit mode styles */
+#saveBtn, #cancelBtn {
+    display: none;
+}
+
+.edit-mode {
+    border: 2px solid var(--vscode-focusBorder, #007ACC);
+}
+
+.edit-cell {
+    width: 100%;
+    min-height: 20px;
+    padding: 4px;
+    border: 1px solid var(--vscode-input-border);
+    background-color: var(--vscode-input-background);
+    color: var(--vscode-input-foreground);
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    resize: none;
+    box-sizing: border-box;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    scrollbar-width: thin;
+    scrollbar-color: var(--vscode-scrollbarSlider-background) var(--vscode-editor-background);
+}
+
+.edit-cell:focus {
+    outline: 1px solid var(--vscode-focusBorder);
+    outline-offset: -1px;
+}
+
+/* Disable row selection in edit mode */
+.edit-mode tr {
+    cursor: default !important;
+}
+
+.edit-mode tr:hover {
+    background-color: transparent !important;
+}
+
+.edit-mode .selected {
+    background-color: transparent !important;
+}
+
+button:hover:not(:disabled) {
+    background-color: var(--vscode-button-hoverBackground);
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }

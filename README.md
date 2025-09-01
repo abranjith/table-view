@@ -67,6 +67,16 @@ This extension contributes the following commands:
 
 ## Release Notes
 
+### 0.0.3
+
+Edit Mode:
+- Added support for editing cell values directly in the table view
+
+Other:
+- Scrollable container for large cell values (removed modal)
+- Fix issues around styling
+- Code cleanup
+
 ### 0.0.2
 
 Minor fixes:

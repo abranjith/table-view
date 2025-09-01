@@ -12,16 +12,21 @@
     let startX = 0;
     let startWidth = 0;
     let currentColumn = null;
+    let isEditMode = false;
+    let originalFileData = [];
 
     // DOM elements
     const table = document.getElementById('csvTable');
     const header = document.getElementById('csvHeader');
     const body = document.getElementById('csvBody');
     const copyBtn = document.getElementById('copyBtn');
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
     const selectionInfo = document.getElementById('selectionInfo');
     const modal = document.getElementById('textModal');
     const modalText = document.getElementById('modalText');
-    const closeModal = document.getElementById('closeModal');
+    const closeModal2 = document.getElementById('closeModal');
     const rawTextCheckbox = document.getElementById('rawTextCheckbox');
     const hasHeaderCheckbox = document.getElementById('hasHeaderCheckbox');
     const fitToScreenCheckbox = document.getElementById('fitToScreenCheckbox');
@@ -31,8 +36,17 @@
     if (copyBtn) {
         copyBtn.addEventListener('click', copySelectedRows);
     }
-    if (closeModal) {
-        closeModal.addEventListener('click', hideModal);
+    if (editBtn) {
+        editBtn.addEventListener('click', handleEditMode);
+    }
+    if (saveBtn) {
+        saveBtn.addEventListener('click', handleSave);
+    }
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', handleCancel);
+    }
+    if (closeModal2) {
+        closeModal2.addEventListener('click', hideModal2);
     }
     if (rawTextCheckbox) {
         rawTextCheckbox.addEventListener('change', handleRawTextToggle);
@@ -50,13 +64,13 @@
     // Modal close events
     modal?.addEventListener('click', (e) => {
         if (e.target === modal) {
-            hideModal();
+            hideModal2();
         }
     });
     
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal?.style.display === 'block') {
-            hideModal();
+            hideModal2();
         }
     });
 
@@ -70,7 +84,7 @@
         switch (message.type) {
             case 'update':
                 rawTextData = message.rawText;
-                parseAndRenderTable();
+                parseRawText();
                 break;
             case 'parsedData':
                 renderTable(message.data);
@@ -78,8 +92,8 @@
         }
     });
 
-    function parseAndRenderTable() {
-       // Send message to extension to copy to clipboard
+    function parseRawText() {
+       // Send message to extension to parse and once done invoke 'parsedData'
         vscode.postMessage({
             type: 'parseWithDelimiter',
             rawText: rawTextData,
@@ -91,14 +105,14 @@
     // Handle delimiter change
     function handleDelimiterChange() {
         if (rawTextData) {
-            parseAndRenderTable();
+            parseRawText();
         }
     }
 
     // Handle raw text toggle
     function handleRawTextToggle() {
         if (rawTextData) {
-            parseAndRenderTable();
+            parseRawText();
         }
     }
 
@@ -126,7 +140,6 @@
 
         // Create header row
         const headerRow = document.createElement('tr');
-        
         
         if (hasHeader) {
             // Use first row as headers
@@ -196,6 +209,11 @@
             
             body.appendChild(row);
         }
+        
+        // Enable edit button when data is loaded (only in non-edit mode)
+        if (editBtn && !isEditMode) {
+            editBtn.disabled = false;
+        }
     }
 
     function calculateInitialColumnWidth(columnIndex) {
@@ -231,6 +249,13 @@
     function createCellContent(text) {
         const container = document.createElement('div');
         container.className = 'cell-content';
+        container.textContent = text || '';
+        return container;
+    }
+
+    function createCellContent2(text) {
+        const container = document.createElement('div');
+        container.className = 'cell-content';
         
         if (!text) {
             container.textContent = '';
@@ -263,7 +288,7 @@
             showMoreBtn.type = 'button';
             showMoreBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                showModal(text);
+                showModal2(text);
             });
             
             // Add truncated text
@@ -279,6 +304,11 @@
     }
 
     function handleRowSelection(event, rowIndex) {
+        // Disable row selection in edit mode
+        if (isEditMode) {
+            return;
+        }
+        
         if (event.ctrlKey || event.metaKey) {
             // Toggle selection
             if (selectedRows.has(rowIndex)) {
@@ -355,12 +385,12 @@
         });
     }
 
-    function showModal(text) {
+    function showModal2(text) {
         modalText.textContent = text;
         modal.style.display = 'block';
     }
 
-    function hideModal() {
+    function hideModal2() {
         modal.style.display = 'none';
     }
 
@@ -517,5 +547,252 @@
                 });
             });
         }
+    }
+
+    // Handle edit mode
+    function handleEditMode() {
+        if (!fileData || fileData.length === 0) return;
+        
+        isEditMode = true;
+        originalFileData = JSON.parse(JSON.stringify(fileData)); // Deep copy
+        
+        // Update UI
+        if (editBtn) editBtn.style.display = 'none';
+        if (copyBtn) copyBtn.style.display = 'none';
+
+        if (saveBtn) {
+            saveBtn.style.display = 'inline-block';
+            saveBtn.disabled = false;
+        }
+        if (cancelBtn) {
+            cancelBtn.style.display = 'inline-block';
+            cancelBtn.disabled = false;
+        }
+        
+        // Disable other controls during edit mode
+        if (rawTextCheckbox) rawTextCheckbox.disabled = true;
+        if (hasHeaderCheckbox) hasHeaderCheckbox.disabled = true;
+        if (fitToScreenCheckbox) fitToScreenCheckbox.disabled = true;
+        if (delimiterInput) delimiterInput.disabled = true;
+        
+        // Make cells editable
+        toggleTableEditMode(true);
+
+        // Add visual indicator for edit mode
+        if (table) table.classList.add('edit-mode');
+    }
+
+    // Handle save
+    function handleSave() {
+        if (!isEditMode) return;
+        
+        // Collect data from editable cells
+        const editedData = collectEditedData();
+        
+        // Send save message to extension
+        const currentDelimiter = delimiterInput ? delimiterInput.value || ',' : ',';
+        vscode.postMessage({
+            type: 'save',
+            data: editedData,
+            delimiter: currentDelimiter
+        });
+
+        // Update fileData with edited data
+        fileData = JSON.parse(JSON.stringify(editedData));
+        // Restore cells with the new edited data
+        restoreCellsWithData(editedData);
+        
+        // Exit edit mode
+        exitEditMode();
+    }
+
+    // Handle cancel
+    function handleCancel() {
+        if (!isEditMode) return;
+        
+        // Restore original data and cell content without re-rendering
+        fileData = JSON.parse(JSON.stringify(originalFileData));
+        restoreCellsWithData(originalFileData);
+        
+        // Exit edit mode
+        exitEditMode();
+    }
+
+    // Restore cells with new edited data
+    function restoreCellsWithData(data) {
+        if (!body) return;
+        
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        
+        const rows = body.querySelectorAll('tr');
+        rows.forEach((row, rowIndex) => {
+            const actualDataIndex = hasHeader ? rowIndex + 1 : rowIndex;
+            if (actualDataIndex < data.length) {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, columnIndex) => {
+                    const newCellData = data[actualDataIndex][columnIndex] || '';
+                    const cellContent = createCellContent(newCellData);
+                    cell.innerHTML = '';
+                    cell.appendChild(cellContent);
+                });
+            }
+        });
+    }
+
+    // Exit edit mode
+    function exitEditMode() {
+        isEditMode = false;
+
+        // Make cells read-only
+        toggleTableEditMode(false);
+        if (editBtn) editBtn.style.display = 'inline-block';
+        if (copyBtn) copyBtn.style.display = 'inline-block';
+
+        if (saveBtn) {
+            saveBtn.style.display = 'none';
+            saveBtn.disabled = true;
+        }
+        if (cancelBtn) {
+            cancelBtn.style.display = 'none';
+            cancelBtn.disabled = true;
+        }
+        
+        // Re-enable controls
+        if (rawTextCheckbox) rawTextCheckbox.disabled = false;
+        if (hasHeaderCheckbox) hasHeaderCheckbox.disabled = false;
+        if (fitToScreenCheckbox) fitToScreenCheckbox.disabled = false;
+        if (delimiterInput) delimiterInput.disabled = false;
+        
+        // Remove edit mode visual indicator
+        if (table) table.classList.remove('edit-mode');
+        
+        // Clear selection
+        selectedRows.clear();
+        updateSelectionUI();
+    }
+
+    // Make table editable
+    function toggleTableEditMode(isEditable) {
+        if (!body) return;
+        
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        const dataStartIndex = hasHeader ? 1 : 0;
+        const editable = isEditable ? 'true' : 'false';
+
+        const rows = body.querySelectorAll('tr');
+        rows.forEach((row, rowIndex) => {
+            const actualRowIndex = dataStartIndex + rowIndex;
+            if (actualRowIndex < fileData.length) {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, columnIndex) => {
+                   cell.setAttribute('contentEditable', editable);
+                });
+            }
+        });
+    }
+
+    function makeTableEditable2() {
+        if (!body) return;
+        
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        const dataStartIndex = hasHeader ? 1 : 0;
+        
+        const rows = body.querySelectorAll('tr');
+        rows.forEach((row, rowIndex) => {
+            const actualRowIndex = dataStartIndex + rowIndex;
+            if (actualRowIndex < fileData.length) {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, columnIndex) => {
+                    // Get the raw data from the original fileData array
+                    const rawCellData = fileData[actualRowIndex][columnIndex] || '';
+                    
+                    // Store original cell dimensions and styles
+                    const originalWidth = cell.offsetWidth;
+                    const originalHeight = cell.offsetHeight;
+                    const computedStyle = window.getComputedStyle(cell);
+                    
+                    // Create textarea for editing with exact same size
+                    const textarea = document.createElement('textarea');
+                    textarea.className = 'edit-cell';
+                    textarea.value = rawCellData;
+                    
+                    // Set exact dimensions to match the original cell
+                    textarea.style.width = originalWidth + 'px';
+                    textarea.style.height = originalHeight + 'px';
+                    textarea.style.minHeight = originalHeight + 'px';
+                    textarea.style.padding = computedStyle.padding;
+                    textarea.style.fontSize = computedStyle.fontSize;
+                    textarea.style.fontFamily = computedStyle.fontFamily;
+                    textarea.style.lineHeight = computedStyle.lineHeight;
+                    textarea.style.boxSizing = 'border-box';
+                    textarea.style.resize = 'none'; // Prevent manual resizing to maintain layout
+                    
+                    // Replace cell content with textarea
+                    cell.innerHTML = '';
+                    cell.appendChild(textarea);
+                    
+                    // Store the raw data as a data attribute for easy access
+                    cell.dataset.originalValue = rawCellData;
+                });
+            }
+        });
+    }
+
+    // Collect edited data from table
+    function collectEditedData() {
+        const editedData = [];
+        
+        if (!body) return editedData;
+        
+        const rows = body.querySelectorAll('tr');
+        rows.forEach(row => {
+            const rowData = [];
+            const cells = row.querySelectorAll('td');
+            cells.forEach(cell => {
+                rowData.push(cell.textContent || '');
+            });
+            if (rowData.length > 0) {
+                editedData.push(rowData);
+            }
+        });
+        
+        // Add header if it exists
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        if (hasHeader && fileData.length > 0) {
+            editedData.unshift(fileData[0]); // Add original header row
+        }
+        
+        return editedData;
+    }
+
+    function collectEditedData2() {
+        const editedData = [];
+        
+        if (!body) return editedData;
+        
+        const rows = body.querySelectorAll('tr');
+        rows.forEach(row => {
+            const rowData = [];
+            const cells = row.querySelectorAll('td');
+            cells.forEach(cell => {
+                const textarea = cell.querySelector('textarea.edit-cell');
+                if (textarea) {
+                    rowData.push(textarea.value || '');
+                } else {
+                    rowData.push(cell.textContent || '');
+                }
+            });
+            if (rowData.length > 0) {
+                editedData.push(rowData);
+            }
+        });
+        
+        // Add header if it exists
+        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
+        if (hasHeader && fileData.length > 0) {
+            editedData.unshift(fileData[0]); // Add original header row
+        }
+        
+        return editedData;
     }
 })();
