@@ -1,4 +1,4 @@
-# Tabulify - View/Edit delimited file data in tabular format
+# Tabulify - View, Edit delimited file data
 
 A Visual Studio Code extension that provides a clear, readable table view for text files with delimiter (such as CSV, TSV etc) with advanced features for data presentation.
 
@@ -35,10 +35,6 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 ## Usage
 
-### Quick Demo
-
-<video src="https://raw.githubusercontent.com/abranjith/table-view/main/docs/images/demo.mp4" controls title="demo video" style="max-width: 730px;"></video>
-
 ### Opening Delimited Files
 
 Drag and drop or open file in the VS Code editor and follow any of the below techniques to view the data.
@@ -46,6 +42,16 @@ Drag and drop or open file in the VS Code editor and follow any of the below tec
   1. **Right-click method**: Right-click any delimited file in the Explorer and select "Open as Table"
   2. **Command Palette**: Use `Ctrl+Shift+P` and search for "Tabulify: Open as Table"
   3. **Editor title**: Click the "Open as Table" button in the editor title bar when viewing a delimited file
+
+### Quick Demo
+
+<video src="https://raw.githubusercontent.com/abranjith/table-view/main/docs/images/demo.mp4" controls title="demo video" style="max-width: 950px;"></video>
+
+![Sample View (Dark Mode)](./docs/images/view-dark-sample.png)
+
+![Sample Edit (Dark Mode)](./docs/images/edit-dark-sample.png)
+
+![Sample View (Light Mode)](./docs/images/view-light-sample.png)
 
 ### Keyboard Shortcuts
 
@@ -68,6 +74,11 @@ This extension contributes the following commands:
 - Virtual scrolling for extremely large datasets is planned for future releases
 
 ## Release Notes
+
+### 0.0.4
+
+Minor updates:
+- Doc updates
 
 ### 0.0.3
 
