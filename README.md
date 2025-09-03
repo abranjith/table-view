@@ -72,6 +72,7 @@ This extension contributes the following commands:
 
 - Very large files (>100MB) may experience performance issues
 - Virtual scrolling for extremely large datasets is planned for future releases
+- For any new issues or feature requests, please open a GitHub issue
 
 ## Release Notes
 

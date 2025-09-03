@@ -1,6 +1,6 @@
 {
 	"name": "simple-file-viewer",
-	"displayName": "Tabulify - View, Edit delimited file data",
+	"displayName": "Tabulify",
 	"description": "View delimited text files (such as CSV, TSV) in a clear, readable table format",
 	"icon": "media/icon.png",
 	"version": "0.0.4",
