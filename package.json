@@ -3,7 +3,7 @@
 	"displayName": "Tabulify",
 	"description": "View delimited text files (such as CSV, TSV) in a clear, readable table format",
 	"icon": "media/icon.png",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"engines": {
 		"vscode": "^1.103.0"
 	},

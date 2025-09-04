@@ -411,6 +411,11 @@ body.resizing {
     background-color: var(--selected-background);
 }
 
+/* Disable the default outline on the table body in edit mode */
+#csvTable tbody:focus {
+    outline: none;
+}
+
 .cell-content {
     display: block;
     line-height: 1.4;
@@ -445,10 +450,11 @@ body.resizing {
   border: 1px solid #ccc;
 }
 
-/* Makes cell editable */
-[contenteditable="true"]:focus {
-    outline: 2px solid #4A90E2;
+/* Focus individual editable */
+.editing-cell {
+    outline: 2px solid var(--vscode-focusBorder, #4A90E2);
     box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    outline-offset: -2px; /* Keep the outline inside the cell */
 }
 
 .show-more-btn {

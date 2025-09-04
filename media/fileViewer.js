@@ -11,6 +11,7 @@
     let currentColumn = null;
     let isEditMode = false;
     let originalFileData = [];
+    let currentEditingCell = null;
 
     // DOM elements
     const table = document.getElementById('csvTable');
@@ -595,20 +596,34 @@
     function toggleTableEditMode(isEditable) {
         if (!body) return;
         
-        const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
-        const dataStartIndex = hasHeader ? 1 : 0;
-        const editable = isEditable ? 'true' : 'false';
+       body.contentEditable = isEditable;
 
-        const rows = body.querySelectorAll('tr');
-        rows.forEach((row, rowIndex) => {
-            const actualRowIndex = dataStartIndex + rowIndex;
-            if (actualRowIndex < fileData.length) {
-                const cells = row.querySelectorAll('td');
-                cells.forEach((cell, columnIndex) => {
-                   cell.setAttribute('contentEditable', editable);
-                });
+       if (isEditable) {
+            // Listen for focus events to highlight the correct cell
+            body.addEventListener('click', handleCellFocus);
+        } else {
+            body.removeEventListener('click', handleCellFocus);
+            // Clean up style from last focused cell
+            if (currentEditingCell) {
+                currentEditingCell.classList.remove('editing-cell');
+                currentEditingCell = null;
             }
-        });
+        }
+    }
+
+    // Handle focus events on table cells
+    function handleCellFocus(event) {
+        // Remove highlight from the previously focused cell
+        if (currentEditingCell) {
+            currentEditingCell.classList.remove('editing-cell');
+        }
+
+        // Find the new cell and highlight it
+        let targetCell = event.target.closest('td');
+        if (targetCell) {
+            targetCell.classList.add('editing-cell');
+            currentEditingCell = targetCell;
+        }
     }
 
     // Collect edited data from table

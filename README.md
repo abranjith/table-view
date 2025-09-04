@@ -9,6 +9,7 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 - Distinct color coding for each column to improve readability
 - Automatic theme integration (supports both light and dark VS Code themes)
 - Support for files with or without headers
+- Support for various delimiters including escaped delimiters such as tab (\t), new line (\n, \r, \r\n), backspace (\b), form-feed (\f), vertical tab (\v), null character (\0), backslash (\\)
 
 ### ✏️ **Edit Mode**
 - Inline editing of cell values directly within the table
@@ -35,7 +36,7 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 
 ## Usage
 
-### Opening Delimited Files
+### Opening Files
 
 Drag and drop or open file in the VS Code editor and follow any of the below techniques to view the data.
 
@@ -68,13 +69,18 @@ This extension contributes the following commands:
 
 - `fileViewer.openAsTable`: Open the current file as a table view
 
-## Known Issues
+## Others
 
-- Very large files (>100MB) may experience performance issues
+- Very large files may experience performance issues
 - Virtual scrolling for extremely large datasets is planned for future releases
-- For any new issues or feature requests, please open a GitHub issue
+- For any new issues or feature requests, please open a GitHub issue. And don't forget to star the repository!
 
 ## Release Notes
+
+### 0.0.5
+
+Performance improvements:
+- Toggle edit mode rendering is now faster
 
 ### 0.0.4
 
@@ -108,4 +114,4 @@ Initial release of File Viewer:
 
 ---
 
-**Enjoy viewing your file data in a beautiful, readable format!** 📊
+**Enjoy exploring your file data in a beautiful, readable format!** 📊
