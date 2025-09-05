@@ -114,9 +114,9 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
             edit.replace(document.uri, fullRange, fileContent);
             await vscode.workspace.applyEdit(edit);
 
-            vscode.window.showInformationMessage('Data updated successfully. Don\'t forget to save the file.');
+            vscode.window.showInformationMessage('Changes saved successfully.');
         } catch (error) {
-            vscode.window.showErrorMessage(`Failed to update data: ${error}`);
+            vscode.window.showErrorMessage(`Failed to save changes: ${error}`);
         }
     }
 

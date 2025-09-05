@@ -59,8 +59,32 @@
     
     // Handle select all with Ctrl+A
     document.addEventListener('keydown', (e) => {
+
+        //enable edit mode on F2
+        if (e.key === 'F2') {
+            if (isEditMode) {
+                return; // Disable if in edit mode
+            }
+            e.preventDefault();
+            handleEditMode();
+            return;
+        }
+
+        // Handle Ctrl+S for saving
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault(); // Prevent the browser's default save action
+            if (isEditMode) {
+                handleSave();
+            }
+            return;
+        }
+
+        //Handle Ctrl+A
         const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
         if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+            if (isEditMode) {
+                return; // Disable select all in edit mode
+            }
             e.preventDefault();
             
             // Select all data rows (excluding header)

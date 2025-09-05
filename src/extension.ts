@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { FileEditorProvider } from './fileEditorProvider';
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Table View extension is now active!');
+	console.log('Tabulify extension is now active!');
 
 	// Register the custom editor provider
 	context.subscriptions.push(FileEditorProvider.register(context));
