@@ -79,6 +79,13 @@
             return;
         }
 
+        // Handle Esc for canceling edit mode
+        if (e.key === 'Escape' && isEditMode) {
+            e.preventDefault();
+            handleCancel();
+            return;
+        }
+
         //Handle Ctrl+A
         const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
         if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
@@ -109,6 +116,11 @@
                 break;
             case 'parsedData':
                 renderTable(message.data);
+                break;
+            case 'cancelConfirmed':
+                if (message.confirmed) {
+                    handleCancelRequest();
+                }
                 break;
         }
     });
@@ -557,6 +569,16 @@
 
     // Handle cancel
     function handleCancel() {
+        if (!isEditMode) return;
+        
+        // Ask the extension to show a confirmation dialog
+        vscode.postMessage({
+            type: 'showCancelConfirmation'
+        });
+    }
+
+    //Handle cancellation message (in background)
+    function handleCancelRequest() {
         if (!isEditMode) return;
         
         // Restore original data and cell content without re-rendering

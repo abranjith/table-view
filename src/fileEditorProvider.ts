@@ -79,6 +79,17 @@ export class FileEditorProvider implements vscode.CustomTextEditorProvider {
                             data: fileData
                         });
                         return;
+                    case 'showCancelConfirmation':
+                        vscode.window.showWarningMessage('Are you sure you want to cancel? All unsaved changes will be lost.', { modal: true }, 'Yes')
+                            .then(selection => {
+                                if (selection === 'Yes') {
+                                    webviewPanel.webview.postMessage({
+                                        type: 'cancelConfirmed',
+                                        confirmed: true
+                                    });
+                                }
+                            });
+                        return;
                     default:
                         // Handle unknown message types
                         console.warn(`Unknown message type: ${message.type}`);

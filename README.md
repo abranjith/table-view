@@ -58,6 +58,9 @@ Drag and drop or open file in the VS Code editor and follow any of the below tec
 
 - `Ctrl+A` - Select all rows
 - `Ctrl+C` - Copy selected rows (via Copy button in toolbar)
+- `F2` - Toggle edit mode on
+- `Ctrl+S` - Save changes (when in edit mode)
+- `Escape` - Cancel edit mode
 
 ## Requirements
 
@@ -81,6 +84,7 @@ This extension contributes the following commands:
 
 Performance improvements:
 - Toggle edit mode rendering is now faster
+- More keyboard shortcut support for edit mode
 
 ### 0.0.4
 
