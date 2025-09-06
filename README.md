@@ -32,7 +32,7 @@ A Visual Studio Code extension that provides a clear, readable table view for te
 - Multi-row selection with `Ctrl+Click`
 - Range selection with `Shift+Click`
 - Select all rows with `Ctrl+A`
-- Copy selected rows to clipboard in original format
+- Copy selected rows (or `Ctrl+C`) to clipboard in original format
 
 ## Usage
 
@@ -57,7 +57,7 @@ Drag and drop or open file in the VS Code editor and follow any of the below tec
 ### Keyboard Shortcuts
 
 - `Ctrl+A` - Select all rows
-- `Ctrl+C` - Copy selected rows (via Copy button in toolbar)
+- `Ctrl+C` - Copy selected rows
 - `F2` - Toggle edit mode on
 - `Ctrl+S` - Save changes (when in edit mode)
 - `Escape` - Cancel edit mode

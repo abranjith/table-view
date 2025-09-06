@@ -80,7 +80,7 @@
         }
 
         // Handle Esc for canceling edit mode
-        if (e.key === 'Escape' && isEditMode) {
+        if (isEditMode && e.key === 'Escape') {
             e.preventDefault();
             handleCancel();
             return;
@@ -88,10 +88,7 @@
 
         //Handle Ctrl+A
         const hasHeader = hasHeaderCheckbox && hasHeaderCheckbox.checked;
-        if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
-            if (isEditMode) {
-                return; // Disable select all in edit mode
-            }
+        if (!isEditMode && (e.ctrlKey || e.metaKey) && e.key === 'a') {
             e.preventDefault();
             
             // Select all data rows (excluding header)
@@ -103,6 +100,12 @@
             
             updateRowHighlights();
             updateSelectionUI();
+        }
+
+        //Handle Ctrl+C
+        if (!isEditMode && (e.ctrlKey || e.metaKey) && e.key === 'c') {
+            e.preventDefault();
+            copySelectedRows();
         }
     });
 
